@@ -1,0 +1,339 @@
+import QtQuick 2.12
+import QtQuick.Window 2.12
+import QtQuick.Controls 2.12
+import "."
+
+
+Image {
+    id: center_box
+    source: "UI/employee/center_box.png"
+    x: -3
+    y: 0
+    width: 1119
+    height: 718
+    opacity: 1
+
+    Rectangle {
+        id: billingRectangle
+        x: 651
+        y: 0
+        width: 468
+        height: 718
+        color: "#a2fae3"
+
+        Rectangle {
+            id: rectangle
+            x: 8
+            y: 147
+            width: 452
+            height: 53
+            color: "#f2d2f7"
+
+            TextInput {
+                id: textInput
+                x: 8
+                y: 8
+                width: 208
+                height: 37
+                text: qsTr("ITEM NAME")
+                verticalAlignment: Text.AlignVCenter
+                font.family: "ubuntu"
+                font.pixelSize: 19
+
+                TextInput {
+                    id: textInput1
+                    x: 222
+                    y: 0
+                    width: 102
+                    height: 37
+                    text: qsTr("PRICE")
+                    verticalAlignment: Text.AlignVCenter
+                    font.family: "ubuntu"
+                    font.pixelSize: 19
+                }
+            }
+
+            Text {
+                id: element1
+                x: 342
+                y: 8
+                width: 102
+                height: 37
+                text: qsTr("QUANITY")
+                verticalAlignment: Text.AlignVCenter
+                font.family: "ubuntu"
+                font.pixelSize: 19
+            }
+        }
+
+        Text {
+            id: element
+            x: 56
+            y: 32
+            width: 359
+            height: 99
+            text: qsTr("BILLING")
+            font.family: "ubuntu"
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 45
+        }
+
+        Rectangle {
+            id: rectangle1
+            x: 8
+            y: 225
+            width: 452
+            height: 328
+            color: "#faf6c0"
+
+            Rectangle {
+                id: rectangle2
+                x: 0
+                y: 412
+                width: 452
+                height: 66
+                color: "#ffffff"
+
+                Text {
+                    id: element3
+                    x: 8
+                    y: 8
+                    width: 216
+                    height: 50
+                    text: qsTr("TOTAL PRICE")
+                    verticalAlignment: Text.AlignVCenter
+                    font.family: "Tahoma"
+                    font.pixelSize: 19
+                }
+            }
+        }
+    }
+
+    Item {
+        id: searchrect
+        x:400
+        y:50
+        opacity:1
+
+        TextField
+        {
+            x: -342
+            y: 18
+
+            width: 587
+            height: 50
+            text: qsTr("")
+            font.family: "Ubuntu"
+            opacity: 1
+            font.pixelSize: 18
+            color: "black"
+            layer.enabled: true
+            focus: true
+            placeholderText: ("Search")
+
+            onAccepted: {
+                itemDetails.json = pd.retrieveData(text)
+                Style.searchitem = text
+            }
+        }
+    }
+
+    Image {
+        id: searchicon
+        source: "UI/employee/searchicon.png"
+        x: 20
+        y: 80
+        opacity: 1
+
+
+    }
+
+    Rectangle {
+        id: headerRectangle
+        x: 8
+        y: 223
+        width: 637
+        height: 55
+        color: "#cdd3f7"
+
+        Text {
+            id: itemID_header
+            x: 8
+            y: 8
+            width: 75
+            height: 39
+            text: qsTr("ITEM ID")
+            font.family: "ubuntu"
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 19
+        }
+
+        Text {
+            id: itemName_header
+            x: 95
+            y: 8
+            width: 272
+            height: 39
+            text: qsTr("ITEM NAME")
+            font.family: "ubuntu"
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+            font.pixelSize: 19
+        }
+
+        TextInput {
+            id: itemPrice_header
+            x: 395
+            y: 8
+            width: 110
+            height: 39
+            text: qsTr("PRICE")
+            verticalAlignment: Text.AlignVCenter
+            font.family: "ubuntu"
+            font.pixelSize: 19
+        }
+
+        Text {
+            id: element2
+            x: 515
+            y: 8
+            width: 122
+            height: 39
+            text: qsTr("ADD TO CART")
+            verticalAlignment: Text.AlignVCenter
+            font.family: "ubuntu"
+            font.pixelSize: 19
+        }
+    }
+
+    Rectangle {
+        id: displayItemsRectangle
+        x: 8
+        y: 306
+        width: 637
+        height: 412
+        color: "#d2f7e7"
+    }
+
+    JSONListModel{
+        id: itemDetails
+        json: pd.retrieveData(Style.searchitem)
+    }
+
+    ScrollView{
+
+        ListView{
+            spacing: 10
+            id: itemDetailModel
+            model: itemDetails.model
+            delegate: ItemDelegate{
+
+                Rectangle
+                {
+                id:itemrectangle
+                x: 11
+                y:320
+                height: 50
+                width: 637
+                color: "#EF767A"
+                radius:5
+                clip:true
+
+                Text {
+                    x: 8
+                    y: 8
+                    id: itemID
+                    text: model.S_NO
+                    font.pixelSize: 17
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignVCenter
+                }
+                Text {
+                    x: 95
+                    y: 8
+                    id: itemName
+                    text: model.NAME
+                    font.pixelSize: 17
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                }
+                Text {
+                    x: 395
+                    y: 8
+                    id: itemPrice
+                    text: model.PRICE
+                    font.pixelSize: 17
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                }
+                Image
+                {
+                    source:"UI/employee/add.png"
+                    x:550
+                    y:8
+                    width: 38
+                    height: 35
+
+                    MouseArea
+                    {
+                        cursorShape: Qt.PointingHandCursor
+                        anchors.fill:parent
+                    }
+                }
+               }
+            }
+        }
+
+}
+    ScrollView{
+
+        ListView{
+            spacing: 10
+            id: billingItemDetailModel
+            model: itemDetails.model
+            delegate: ItemDelegate{
+
+                Rectangle
+                {
+                id:billingItemrectangle
+                x: 658
+                y: 240
+                height: 50
+                width: 452
+                color: "#EF767A"
+                radius:5
+                clip:true
+
+
+                Text {
+                    x: 8
+                    y: 8
+                    id: billingItemName
+                    text: model.NAME
+                    font.pixelSize: 14
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                }
+                Text {
+                    x: 230
+                    y: 0
+                    id: billingItemPrice
+                    text: model.PRICE
+                    font.pixelSize: 14
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                }
+                Text {
+                    x: 380
+                    y: 12
+                    id: itemIdBilling
+                    text: model.QUANTITY
+                    font.pixelSize: 14
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignVCenter
+                }}}}
+}}
+
+
